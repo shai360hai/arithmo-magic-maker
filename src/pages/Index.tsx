@@ -3,7 +3,7 @@ import PastryContactCard from "@/components/PastryContactCard";
 
 const Index = () => {
   return (
-    <div>
+    <div className="main-layout">
       <PastryContactCard />
       <InvoiceGenerator />
     </div>
