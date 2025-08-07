@@ -12,6 +12,7 @@ import { Trash2, Plus, Printer, Download, CalendarIcon } from 'lucide-react';
 import { format } from "date-fns";
 import { he } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import './InvoiceGenerator.css';
 
 interface InvoiceItem {
   id: string;
