@@ -6,7 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { Trash2, Plus, Printer, Download } from 'lucide-react';
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Trash2, Plus, Printer, Download, CalendarIcon } from 'lucide-react';
+import { format } from "date-fns";
+import { he } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 interface InvoiceItem {
   id: string;
@@ -25,7 +30,7 @@ interface PaymentMethod {
   cash: boolean;
   check: boolean;
   bit: boolean;
-  cleaning: boolean;
+  bankTransfer: boolean;
 }
 
 const InvoiceGenerator = () => {
@@ -43,11 +48,11 @@ const InvoiceGenerator = () => {
     cash: false,
     check: false,
     bit: false,
-    cleaning: false
+    bankTransfer: false
   });
 
-  const [invoiceNumber, setInvoiceNumber] = useState('0019/5');
-  const [invoiceDate, setInvoiceDate] = useState(new Date().toLocaleDateString('he-IL'));
+  const [invoiceNumber, setInvoiceNumber] = useState('');
+  const [invoiceDate, setInvoiceDate] = useState<Date | undefined>(new Date());
 
   const addItem = () => {
     setItems([...items, { 
@@ -108,16 +113,34 @@ const InvoiceGenerator = () => {
                   value={invoiceNumber}
                   onChange={(e) => setInvoiceNumber(e.target.value)}
                   className="text-right"
+                  placeholder="הכנס מספר חשבונית"
                 />
               </div>
               <div>
                 <Label htmlFor="invoiceDate">תאריך</Label>
-                <Input
-                  id="invoiceDate"
-                  value={invoiceDate}
-                  onChange={(e) => setInvoiceDate(e.target.value)}
-                  className="text-right"
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-right font-normal",
+                        !invoiceDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="ml-2 h-4 w-4" />
+                      {invoiceDate ? format(invoiceDate, "dd/MM/yyyy", { locale: he }) : "בחר תאריך"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={invoiceDate}
+                      onSelect={setInvoiceDate}
+                      initialFocus
+                      className="p-3 pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
 
@@ -183,10 +206,10 @@ const InvoiceGenerator = () => {
                     {items.map((item) => (
                       <tr key={item.id} className="invoice-table">
                         <td className="p-3">
-                          <Input
+                          <Textarea
                             value={item.description}
                             onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                            className="text-right border-0 bg-transparent"
+                            className="text-right border-0 bg-transparent resize-none min-h-[60px]"
                             placeholder="תיאור הפריט"
                           />
                         </td>
@@ -213,16 +236,14 @@ const InvoiceGenerator = () => {
                           ₪{(item.quantity * item.price).toFixed(2)}
                         </td>
                         <td className="p-3 text-center">
-                          {items.length > 1 && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => removeItem(item.id)}
-                              className="text-destructive hover:text-destructive"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          )}
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeItem(item.id)}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -274,13 +295,13 @@ const InvoiceGenerator = () => {
                 </div>
                 <div className="flex items-center space-x-2 space-x-reverse">
                   <Checkbox
-                    id="cleaning"
-                    checked={paymentMethod.cleaning}
+                    id="bankTransfer"
+                    checked={paymentMethod.bankTransfer}
                     onCheckedChange={(checked) => 
-                      setPaymentMethod({...paymentMethod, cleaning: checked as boolean})
+                      setPaymentMethod({...paymentMethod, bankTransfer: checked as boolean})
                     }
                   />
-                  <Label htmlFor="cleaning">נקלאית</Label>
+                  <Label htmlFor="bankTransfer">העברה בנקאית</Label>
                 </div>
               </div>
             </div>
