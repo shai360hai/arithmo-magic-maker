@@ -1,0 +1,16 @@
+@media print {
+  html, body {
+    height: auto !important;
+  }
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  /* הכרח שאין page break */
+  *, *::before, *::after {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+  }
+}
