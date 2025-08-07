@@ -1,30 +1,65 @@
-.pastry-container {
-  font-family: sans-serif;
-  text-align: center;
-  background-color: #fff8f8;
-  padding: 40px;
-  direction: rtl;
+.pastry-card {
+  max-width: 400px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 24px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
-.mixer {
-  width: 300px;
+
+.pastry-card__header {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
 }
-.contact {
-  margin-top: 30px;
-  font-size: 18px;
+
+.pastry-card__logo,
+.pastry-card__mixer {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #f2f2f2;
 }
-.contact a {
+
+.pastry-card__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pastry-card__contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pastry-card__icon-link img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.2s;
+}
+
+.pastry-card__icon-link:hover img {
+  transform: scale(1.15);
+}
+
+.pastry-card__contact-number {
+  font-size: 1.1em;
+  color: #333;
   text-decoration: none;
-  color: #d6336c;
-  margin: 0 10px;
+  font-weight: bold;
 }
-.icons img,
-.instagram img {
-  width: 24px;
-  vertical-align: middle;
-  margin-left: 6px;
-  cursor: pointer;
+
+.pastry-card__contact-number:hover {
+  color: #d35400;
 }
-.logo {
-  width: 80px;
-  margin-top: 20px;
+
+.pastry-card__instagram {
+  margin-left: 8px;
+  font-size: 1.1em;
+  color: #bc2a8d;
+  font-weight: bold;
 }
