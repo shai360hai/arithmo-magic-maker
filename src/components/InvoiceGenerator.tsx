@@ -1,0 +1,308 @@
+import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { Trash2, Plus, Printer, Download } from 'lucide-react';
+
+interface InvoiceItem {
+  id: string;
+  description: string;
+  quantity: number;
+  price: number;
+}
+
+interface Customer {
+  name: string;
+  address: string;
+  phone: string;
+}
+
+interface PaymentMethod {
+  cash: boolean;
+  check: boolean;
+  bit: boolean;
+  cleaning: boolean;
+}
+
+const InvoiceGenerator = () => {
+  const [customer, setCustomer] = useState<Customer>({
+    name: '',
+    address: '',
+    phone: ''
+  });
+
+  const [items, setItems] = useState<InvoiceItem[]>([
+    { id: '1', description: '', quantity: 1, price: 0 }
+  ]);
+
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>({
+    cash: false,
+    check: false,
+    bit: false,
+    cleaning: false
+  });
+
+  const [invoiceNumber, setInvoiceNumber] = useState('0019/5');
+  const [invoiceDate, setInvoiceDate] = useState(new Date().toLocaleDateString('he-IL'));
+
+  const addItem = () => {
+    setItems([...items, { 
+      id: Date.now().toString(), 
+      description: '', 
+      quantity: 1, 
+      price: 0 
+    }]);
+  };
+
+  const removeItem = (id: string) => {
+    setItems(items.filter(item => item.id !== id));
+  };
+
+  const updateItem = (id: string, field: keyof InvoiceItem, value: string | number) => {
+    setItems(items.map(item => 
+      item.id === id ? { ...item, [field]: value } : item
+    ));
+  };
+
+  const calculateTotal = () => {
+    return items.reduce((total, item) => total + (item.quantity * item.price), 0);
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-soft p-4 rtl">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="invoice-header rounded-lg p-6 mb-6 text-white text-center">
+          <div className="flex justify-between items-center mb-4">
+            <div className="text-right">
+              <h1 className="text-3xl font-bold mb-2">חי ששונקר</h1>
+              <p className="text-lg">@haisasonker</p>
+              <p className="text-lg">0506897798</p>
+            </div>
+            <div className="text-4xl">🌸</div>
+          </div>
+        </div>
+
+        {/* Invoice Form */}
+        <Card className="mb-6 shadow-soft">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center text-primary">
+              מחולל חשבוניות
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Invoice Details */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="invoiceNumber">מספר חשבונית</Label>
+                <Input
+                  id="invoiceNumber"
+                  value={invoiceNumber}
+                  onChange={(e) => setInvoiceNumber(e.target.value)}
+                  className="text-right"
+                />
+              </div>
+              <div>
+                <Label htmlFor="invoiceDate">תאריך</Label>
+                <Input
+                  id="invoiceDate"
+                  value={invoiceDate}
+                  onChange={(e) => setInvoiceDate(e.target.value)}
+                  className="text-right"
+                />
+              </div>
+            </div>
+
+            {/* Customer Details */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-primary">פרטי לקוח</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="customerName">שם לקוח</Label>
+                  <Input
+                    id="customerName"
+                    value={customer.name}
+                    onChange={(e) => setCustomer({...customer, name: e.target.value})}
+                    className="text-right"
+                    placeholder="הכנס שם לקוח"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="customerPhone">טלפון</Label>
+                  <Input
+                    id="customerPhone"
+                    value={customer.phone}
+                    onChange={(e) => setCustomer({...customer, phone: e.target.value})}
+                    className="text-right"
+                    placeholder="מספר טלפון"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="customerAddress">כתובת</Label>
+                <Textarea
+                  id="customerAddress"
+                  value={customer.address}
+                  onChange={(e) => setCustomer({...customer, address: e.target.value})}
+                  className="text-right"
+                  placeholder="כתובת מלאה"
+                />
+              </div>
+            </div>
+
+            {/* Items Table */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-primary">פריטים</h3>
+                <Button onClick={addItem} size="sm" variant="outline">
+                  <Plus className="w-4 h-4 ml-2" />
+                  הוסף פריט
+                </Button>
+              </div>
+              
+              <div className="invoice-table rounded-lg overflow-hidden">
+                <table className="w-full">
+                  <thead>
+                    <tr className="invoice-table">
+                      <th className="p-3 text-right">תיאור</th>
+                      <th className="p-3 text-center">כמות</th>
+                      <th className="p-3 text-center">מחיר יחידה</th>
+                      <th className="p-3 text-center">סכום</th>
+                      <th className="p-3 text-center">פעולות</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((item) => (
+                      <tr key={item.id} className="invoice-table">
+                        <td className="p-3">
+                          <Input
+                            value={item.description}
+                            onChange={(e) => updateItem(item.id, 'description', e.target.value)}
+                            className="text-right border-0 bg-transparent"
+                            placeholder="תיאור הפריט"
+                          />
+                        </td>
+                        <td className="p-3 text-center">
+                          <Input
+                            type="number"
+                            value={item.quantity}
+                            onChange={(e) => updateItem(item.id, 'quantity', parseInt(e.target.value) || 0)}
+                            className="text-center border-0 bg-transparent w-20 mx-auto"
+                            min="1"
+                          />
+                        </td>
+                        <td className="p-3 text-center">
+                          <Input
+                            type="number"
+                            value={item.price}
+                            onChange={(e) => updateItem(item.id, 'price', parseFloat(e.target.value) || 0)}
+                            className="text-center border-0 bg-transparent w-24 mx-auto"
+                            min="0"
+                            step="0.01"
+                          />
+                        </td>
+                        <td className="p-3 text-center font-semibold">
+                          ₪{(item.quantity * item.price).toFixed(2)}
+                        </td>
+                        <td className="p-3 text-center">
+                          {items.length > 1 && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeItem(item.id)}
+                              className="text-destructive hover:text-destructive"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Total */}
+              <div className="flex justify-end">
+                <div className="invoice-total px-6 py-3 rounded-lg text-xl">
+                  סה"כ: ₪{calculateTotal().toFixed(2)}
+                </div>
+              </div>
+            </div>
+
+            {/* Payment Methods */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-primary">אמצעי תשלום</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <Checkbox
+                    id="cash"
+                    checked={paymentMethod.cash}
+                    onCheckedChange={(checked) => 
+                      setPaymentMethod({...paymentMethod, cash: checked as boolean})
+                    }
+                  />
+                  <Label htmlFor="cash">מזומן</Label>
+                </div>
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <Checkbox
+                    id="check"
+                    checked={paymentMethod.check}
+                    onCheckedChange={(checked) => 
+                      setPaymentMethod({...paymentMethod, check: checked as boolean})
+                    }
+                  />
+                  <Label htmlFor="check">צ'ק</Label>
+                </div>
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <Checkbox
+                    id="bit"
+                    checked={paymentMethod.bit}
+                    onCheckedChange={(checked) => 
+                      setPaymentMethod({...paymentMethod, bit: checked as boolean})
+                    }
+                  />
+                  <Label htmlFor="bit">ביט</Label>
+                </div>
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <Checkbox
+                    id="cleaning"
+                    checked={paymentMethod.cleaning}
+                    onCheckedChange={(checked) => 
+                      setPaymentMethod({...paymentMethod, cleaning: checked as boolean})
+                    }
+                  />
+                  <Label htmlFor="cleaning">נקלאית</Label>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Action Buttons */}
+            <div className="flex gap-4 justify-center">
+              <Button onClick={handlePrint} className="bg-gradient-primary">
+                <Printer className="w-4 h-4 ml-2" />
+                הדפס חשבונית
+              </Button>
+              <Button variant="outline">
+                <Download className="w-4 h-4 ml-2" />
+                שמור כ-PDF
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default InvoiceGenerator;

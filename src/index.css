@@ -17,24 +17,45 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Pink and gold theme inspired by the logo */
+    --primary: 335 45% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 335 65% 85%;
+    --primary-glow: 335 55% 75%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 45 85% 85%;
+    --secondary-foreground: 335 45% 25%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 45 25% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 45 95% 75%;
+    --accent-foreground: 335 45% 25%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 335 15% 90%;
+    --input: 335 15% 95%;
+    --ring: 335 45% 55%;
+
+    /* Custom tokens for invoice design */
+    --invoice-header: 335 45% 55%;
+    --invoice-accent: 45 85% 75%;
+    --invoice-border: 335 25% 85%;
+    --invoice-total: 335 55% 45%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-soft: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-invoice: linear-gradient(45deg, hsl(var(--primary-light)), hsl(var(--accent)));
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.2);
+    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.1);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --radius: 0.5rem;
 
@@ -100,6 +121,48 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-hebrew;
+    direction: rtl;
+  }
+
+  /* Hebrew typography and RTL support */
+  .rtl {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .ltr {
+    direction: ltr;
+    text-align: left;
+  }
+
+  /* Invoice specific styles */
+  .invoice-container {
+    background: var(--gradient-soft);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .invoice-header {
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .invoice-table {
+    border: 2px solid hsl(var(--invoice-border));
+  }
+
+  .invoice-table th {
+    background: hsl(var(--invoice-accent));
+    border-bottom: 2px solid hsl(var(--invoice-border));
+  }
+
+  .invoice-table td {
+    border-bottom: 1px solid hsl(var(--invoice-border));
+  }
+
+  .invoice-total {
+    background: hsl(var(--invoice-total));
+    color: white;
+    font-weight: bold;
   }
 }
