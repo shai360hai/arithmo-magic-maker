@@ -1,13 +1,13 @@
 import InvoiceGenerator from "@/components/InvoiceGenerator";
 import PastryContactCard from "@/components/PastryContactCard";
 
-
 const Index = () => {
-      <div>
+  return (
+    <div>
       <PastryContactCard />
-      {/* תוכן נוסף אם קיים */}
+      <InvoiceGenerator />
     </div>
-  return <InvoiceGenerator />;
+  );
 };
 
 export default Index;
