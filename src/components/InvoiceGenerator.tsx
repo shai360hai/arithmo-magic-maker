@@ -82,19 +82,40 @@ const InvoiceGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-soft p-4 rtl">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="invoice-header rounded-lg p-6 mb-6 text-white text-center">
-          <div className="flex justify-between items-center mb-4">
-            <div className="text-right">
-              <h1 className="text-3xl font-bold mb-2">חי ששונקר</h1>
-              <p className="text-lg">@haisasonker</p>
-              <p className="text-lg">0506897798</p>
-            </div>
-            <div className="text-4xl">🌸</div>
-          </div>
+   <div className="pastry-container">
+      <img src="/images/logo.jpeg" alt="logo" className="logo" />
+      <img src="/images/mixer.png" alt="מיקסר" className="mixer" />
+
+      <div className="contact">
+        <div className="icons">
+          <a href="tel:0506897798">
+            <img
+              src="https://img.icons8.com/ios-filled/50/000000/phone.png"
+              alt="Call"
+            />
+          </a>
+          <a href="https://wa.me/972506897798" target="_blank" rel="noreferrer">
+            050-6897798
+          </a>
         </div>
+
+        <div className="instagram">
+          <a
+            href="https://www.instagram.com/haisasonker"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src="https://img.icons8.com/ios-filled/50/000000/instagram-new.png"
+              alt="Instagram"
+            />
+            @haisasonker
+          </a>
+        </div>
+      </div>
+    </div>
+  
+
 
         {/* Invoice Form */}
         <Card className="mb-6 shadow-soft">
