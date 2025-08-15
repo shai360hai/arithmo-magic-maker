@@ -77,7 +77,7 @@ const InvoiceGenerator = () => {
   };
 
   return (
-    <Card className={cn("mb-6 shadow-xl max-w-4xl mx-auto print:w-full print:shadow-none print:border-none")}>
+    <Card className={cn("mb-6 shadow-xl max-w-4xl mx-auto print:w-full print:shadow-none print:border-none invoice-container")}>
       <CardHeader>
         <CardTitle className="text-3xl text-center text-primary font-bold tracking-tight mb-2">
           מחולל חשבוניות

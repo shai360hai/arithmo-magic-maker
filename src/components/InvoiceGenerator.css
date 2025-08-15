@@ -1,16 +1,62 @@
 @media print {
   html, body {
     height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   body {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  /* הכרח שאין page break */
+  
+  /* הגדרות דף אחד */
+  @page {
+    size: A4;
+    margin: 0.5in;
+  }
+  
+  /* מניעת פיצול דפים */
   *, *::before, *::after {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     page-break-before: auto !important;
     page-break-after: auto !important;
+  }
+  
+  /* התאמת גודל לדף אחד */
+  .invoice-container {
+    transform: scale(0.85);
+    transform-origin: top center;
+    width: 117.6% !important; /* מפצה על הסקייל */
+    margin: 0 auto !important;
+  }
+  
+  /* הקטנת רווחים */
+  .space-y-10 > * + * {
+    margin-top: 1.5rem !important;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+  
+  /* הקטנת גובה טבלה */
+  table td, table th {
+    padding: 0.25rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* הקטנת כותרות */
+  h3 {
+    font-size: 1rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .text-3xl {
+    font-size: 1.5rem !important;
+  }
+  
+  .text-2xl {
+    font-size: 1.25rem !important;
   }
 }
