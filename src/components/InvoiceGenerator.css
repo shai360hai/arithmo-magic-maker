@@ -27,11 +27,13 @@
   /* התאמת גודל לדף אחד */
   .invoice-container {
     transform: scale(0.75);
-    transform-origin: top center;
+    transform-origin: top left;
     width: 133% !important; /* מפצה על הסקייל */
-    margin: -2rem auto 0 auto !important;
+    margin: -1rem 0 0 0 !important;
     min-height: auto !important;
     height: auto !important;
+    position: relative !important;
+    left: 0 !important;
   }
   
   /* הקטנת רווחים בכל המקומות */
