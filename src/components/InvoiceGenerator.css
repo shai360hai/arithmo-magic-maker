@@ -3,16 +3,17 @@
     height: auto !important;
     margin: 0 !important;
     padding: 0 !important;
+    overflow: visible !important;
   }
   body {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
   
-  /* הגדרות דף אחד */
+  /* הגדרות דף A4 */
   @page {
     size: A4;
-    margin: 0.5in;
+    margin: 0.3in;
   }
   
   /* מניעת פיצול דפים */
@@ -25,38 +26,99 @@
   
   /* התאמת גודל לדף אחד */
   .invoice-container {
-    transform: scale(0.85);
+    transform: scale(0.75);
     transform-origin: top center;
-    width: 117.6% !important; /* מפצה על הסקייל */
-    margin: 0 auto !important;
+    width: 133% !important; /* מפצה על הסקייל */
+    margin: -2rem auto 0 auto !important;
+    min-height: auto !important;
+    height: auto !important;
   }
   
-  /* הקטנת רווחים */
+  /* הקטנת רווחים בכל המקומות */
   .space-y-10 > * + * {
-    margin-top: 1.5rem !important;
+    margin-top: 1rem !important;
   }
   
   .space-y-6 > * + * {
-    margin-top: 1rem !important;
+    margin-top: 0.75rem !important;
+  }
+  
+  /* הקטנת padding של הכרטיס */
+  .invoice-container .p-8 {
+    padding: 1rem !important;
+  }
+  
+  /* הקטנת גובה header */
+  .invoice-container .mb-2 {
+    margin-bottom: 0.5rem !important;
   }
   
   /* הקטנת גובה טבלה */
   table td, table th {
+    padding: 0.2rem !important;
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* הקטנת textarea */
+  textarea {
+    min-height: 2rem !important;
     padding: 0.25rem !important;
-    font-size: 0.875rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* הקטנת inputs */
+  input {
+    padding: 0.25rem !important;
+    font-size: 0.8rem !important;
+    height: auto !important;
+    min-height: 1.8rem !important;
   }
   
   /* הקטנת כותרות */
   h3 {
-    font-size: 1rem !important;
-    margin-bottom: 0.75rem !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.2 !important;
   }
   
   .text-3xl {
-    font-size: 1.5rem !important;
+    font-size: 1.3rem !important;
+    line-height: 1.2 !important;
   }
   
   .text-2xl {
-    font-size: 1.25rem !important;
+    font-size: 1.1rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .text-lg {
+    font-size: 0.9rem !important;
+  }
+  
+  /* הקטנת separators */
+  .separator {
+    margin: 0.5rem 0 !important;
+  }
+  
+  /* הקטנת גריד gaps */
+  .gap-6 {
+    gap: 0.75rem !important;
+  }
+  
+  .gap-4 {
+    gap: 0.5rem !important;
+  }
+  
+  /* הקטנת buttons */
+  button {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* הקטנת labels */
+  label {
+    font-size: 0.8rem !important;
+    margin-bottom: 0.25rem !important;
   }
 }
