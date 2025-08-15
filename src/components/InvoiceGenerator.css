@@ -24,11 +24,11 @@
     page-break-after: auto !important;
   }
   
-  /* התאמת גודל לדף אחד */
+  /* התאמת גודל לדף אחד והזזה ימינה כדי למנוע חיתוך */
   .invoice-container {
-    transform: scale(0.75);
+    transform: translateX(0.25in) scale(0.75);
     transform-origin: top left;
-    width: 133% !important; /* מפצה על הסקייל */
+    width: 125% !important; /* מפצה על הסקייל, פחות כדי שלא ייחתך בימין */
     margin: -1rem 0 0 0 !important;
     min-height: auto !important;
     height: auto !important;
